@@ -26,7 +26,13 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
     }
 
-
     public GameObject PlayerGameObject;
 
+    private void Start()
+    {
+        EnemyManager.Instance.SpawnNewSkeleton(new Vector3(5f, 5f, 5f));
+        EnemyManager.Instance.SpawnNewSkeleton(new Vector3(-5f, 5f, 5f));
+        EnemyManager.Instance.SpawnNewSkeleton(new Vector3(5f, 5f, -5f));
+        EnemyManager.Instance.SpawnNewSkeleton(new Vector3(-5f, 5f, -5f));
+    }
 }
