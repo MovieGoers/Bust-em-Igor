@@ -7,7 +7,7 @@ public class EnemyManager : MonoBehaviour
     private static EnemyManager instance;
 
     public GameObject originalSkeleton;
-    List<GameObject> skeletons = new List<GameObject>();
+    public List<GameObject> skeletons = new List<GameObject>();
 
     public static EnemyManager Instance
     {
