@@ -12,14 +12,9 @@ public class PlayerScript : MonoBehaviour
     Vector3 moveDirection;
     GameObject targetEnemy;
 
-    private void Start()
-    {
-        
-    }
-
     private void FixedUpdate()
     {
-        GameObject targetEnemy = FindNearestEnemy();
+        targetEnemy = FindNearestEnemy(); // 최적화를 위해 Update 함수 대신 다른 곳에서 특정 상황 되면 호출되도록 구현 필요.
 
         moveDirection = (targetEnemy.transform.position - transform.position).normalized;
         transform.Translate(moveDirection * speed);
@@ -52,7 +47,6 @@ public class PlayerScript : MonoBehaviour
         {
             Destroy(enemy);
             EnemyManager.Instance.RemoveSkeletonFromList(enemy);
-            targetEnemy = FindNearestEnemy();
         }
     }
 
