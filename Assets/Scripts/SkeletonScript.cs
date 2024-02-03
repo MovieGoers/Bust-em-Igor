@@ -4,15 +4,21 @@ using UnityEngine;
 
 public class SkeletonScript : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public float damage;
+    public float hp;
+    public float speed;
+
+    // State 관련 구현 필요할 수도.
+
+    Vector3 moveDirection;
+
+    private void Update()
     {
-        
+        moveDirection = (GameManager.Instance.PlayerGameObject.transform.position - transform.position).normalized;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void FixedUpdate()
     {
-        
+        transform.Translate(moveDirection * speed);
     }
 }
