@@ -9,6 +9,9 @@ public class PlayerScript : MonoBehaviour
     public float hp;
     public float attackRate;
 
+    Vector3 moveDirection;
+    GameObject targetEnemy;
+
     private void Start()
     {
         
@@ -16,7 +19,10 @@ public class PlayerScript : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Debug.Log(FindNearestEnemy().name);
+        GameObject targetEnemy = FindNearestEnemy();
+
+        moveDirection = (targetEnemy.transform.position - transform.position).normalized;
+        transform.Translate(moveDirection * speed);
     }
 
     GameObject FindNearestEnemy()
@@ -37,5 +43,25 @@ public class PlayerScript : MonoBehaviour
             return nearestEnemy;
         
         return null;
+    }
+
+    void Attack(GameObject enemy)
+    {
+        enemy.GetComponent<SkeletonScript>().hp -= damage;
+        if(enemy.GetComponent<SkeletonScript>().hp <= 0)
+        {
+            Destroy(enemy);
+            EnemyManager.Instance.RemoveSkeletonFromList(enemy);
+            targetEnemy = FindNearestEnemy();
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        GameObject go = collision.gameObject;
+        if (go.CompareTag("Enemy"))
+        {
+            Attack(go);
+        }
     }
 }

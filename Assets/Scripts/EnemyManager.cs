@@ -38,4 +38,9 @@ public class EnemyManager : MonoBehaviour
 
         skeletons.Add(newSkeleton);
     }
+
+    public void RemoveSkeletonFromList(GameObject skeleton)
+    {
+        skeletons.Remove(skeleton);
+    }
 }
