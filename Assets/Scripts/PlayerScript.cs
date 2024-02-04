@@ -7,7 +7,7 @@ public class PlayerScript : MonoBehaviour
     public float damage;
     public float speed;
     public float hp;
-    public float attackRate;
+    public float attackCooldown;
 
     Vector3 moveDirection;
     GameObject targetEnemy;
