@@ -33,6 +33,8 @@ public class PlayerScript : MonoBehaviour
 
     private void Update()
     {
+        UIManager.Instance.SetAttackText(attackTimer);
+
         if(attackTimer > 0)
         {
             attackTimer -= Time.deltaTime;

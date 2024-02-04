@@ -36,6 +36,6 @@ public class UIManager : MonoBehaviour
 
     public void SetAttackText(float time)
     {
-        AttackText.text = "Attack : " + time;
+        AttackText.text = "Attack : " + time.ToString("F2");
     }
 }
