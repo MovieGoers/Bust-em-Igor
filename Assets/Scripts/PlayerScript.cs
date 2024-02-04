@@ -26,9 +26,11 @@ public class PlayerScript : MonoBehaviour
         targetEnemy = FindNearestEnemy(); // 최적화를 위해 Update 함수 대신 다른 곳에서 특정 상황 되면 호출되도록 구현 필요.
 
         moveDirection = (targetEnemy.transform.position - transform.position).normalized;
+        
+        transform.rotation = Quaternion.LookRotation(moveDirection, Vector3.up);
 
-        if(!isTargetNear)
-            transform.Translate(moveDirection * speed);
+        if (!isTargetNear)
+            transform.position = transform.position + moveDirection * speed;
     }
 
     private void Update()
