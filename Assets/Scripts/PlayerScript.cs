@@ -30,7 +30,7 @@ public class PlayerScript : MonoBehaviour
         transform.rotation = Quaternion.LookRotation(moveDirection, Vector3.up);
 
         if (!isTargetNear)
-            transform.position = transform.position + moveDirection * speed;
+            transform.position += moveDirection * speed;
     }
 
     private void Update()

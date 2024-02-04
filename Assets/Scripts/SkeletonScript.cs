@@ -38,8 +38,10 @@ public class SkeletonScript : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(!isPlayerNear)
-            transform.Translate(moveDirection * speed);
+        transform.rotation = Quaternion.LookRotation(moveDirection, Vector3.up);
+
+        if (!isPlayerNear)
+            transform.position += moveDirection * speed;
 
         if (isPlayerNear)
         {
