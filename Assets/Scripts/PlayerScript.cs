@@ -10,15 +10,42 @@ public class PlayerScript : MonoBehaviour
     public float attackTime;
     float attackTimer;
 
+    bool isTargetNear;
+
     Vector3 moveDirection;
     GameObject targetEnemy;
+
+    private void Start()
+    {
+        attackTimer = attackTime;
+        isTargetNear = false;
+    }
 
     private void FixedUpdate()
     {
         targetEnemy = FindNearestEnemy(); // 최적화를 위해 Update 함수 대신 다른 곳에서 특정 상황 되면 호출되도록 구현 필요.
 
         moveDirection = (targetEnemy.transform.position - transform.position).normalized;
-        transform.Translate(moveDirection * speed);
+
+        if(!isTargetNear)
+            transform.Translate(moveDirection * speed);
+    }
+
+    private void Update()
+    {
+        if(attackTimer > 0)
+        {
+            attackTimer -= Time.deltaTime;
+        }
+
+        if(attackTimer <= 0)
+        {
+            if (isTargetNear) {
+                isTargetNear = false;
+                Attack(targetEnemy);
+                attackTimer = attackTime;
+            }
+        }
     }
 
     GameObject FindNearestEnemy()
@@ -56,7 +83,7 @@ public class PlayerScript : MonoBehaviour
         GameObject go = collision.gameObject;
         if (go.CompareTag("Enemy"))
         {
-            Attack(go);
+            isTargetNear = true;
         }
     }
 }
