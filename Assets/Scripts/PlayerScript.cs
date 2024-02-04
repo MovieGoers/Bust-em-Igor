@@ -34,8 +34,9 @@ public class PlayerScript : MonoBehaviour
     private void Update()
     {
         UIManager.Instance.SetAttackText(attackTimer);
+        UIManager.Instance.SetHPText(hp);
 
-        if(attackTimer > 0)
+        if (attackTimer > 0)
         {
             attackTimer -= Time.deltaTime;
         }
@@ -44,7 +45,7 @@ public class PlayerScript : MonoBehaviour
         {
             if (isTargetNear) {
                 isTargetNear = false;
-                Attack(targetEnemy);
+                AttackEnemy(targetEnemy);
                 attackTimer = attackTime;
             }
         }
@@ -70,7 +71,7 @@ public class PlayerScript : MonoBehaviour
         return null;
     }
 
-    void Attack(GameObject enemy)
+    void AttackEnemy(GameObject enemy)
     {
         enemy.GetComponent<SkeletonScript>().hp -= damage;
         if(enemy.GetComponent<SkeletonScript>().hp <= 0)
@@ -78,6 +79,11 @@ public class PlayerScript : MonoBehaviour
             Destroy(enemy);
             EnemyManager.Instance.RemoveSkeletonFromList(enemy);
         }
+    }
+
+    public void AttackPlayer(float damage)
+    {
+        hp -= damage;
     }
 
     private void OnCollisionEnter(Collision collision)

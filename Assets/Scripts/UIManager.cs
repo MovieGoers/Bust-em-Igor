@@ -31,7 +31,7 @@ public class UIManager : MonoBehaviour
 
     public void SetHPText(float hp)
     {
-        hpText.text = "HP : " + hp;
+        hpText.text = "HP : " + hp.ToString("F2"); ;
     }
 
     public void SetAttackText(float time)
