@@ -44,7 +44,6 @@ public class PlayerScript : MonoBehaviour
         if(attackTimer <= 0)
         {
             if (isTargetNear) {
-                isTargetNear = false;
                 AttackEnemy(targetEnemy);
                 attackTimer = attackTime;
             }
@@ -78,6 +77,7 @@ public class PlayerScript : MonoBehaviour
         {
             Destroy(enemy);
             EnemyManager.Instance.RemoveSkeletonFromList(enemy);
+            isTargetNear = false;
         }
     }
 
