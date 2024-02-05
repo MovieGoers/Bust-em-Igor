@@ -12,6 +12,8 @@ public class SkeletonScript : MonoBehaviour
 
     GameObject player;
 
+    Animator animator;
+
     public GameObject hpBar;
     Slider hpBarSlider;
 
@@ -31,6 +33,8 @@ public class SkeletonScript : MonoBehaviour
         hpBarSlider = hpBar.GetComponent<Slider>();
         player = GameManager.Instance.PlayerGameObject;
 
+        animator = gameObject.GetComponent<Animator>();
+
         hpBarSlider.minValue = 0;
         hpBarSlider.maxValue = hp;
 
@@ -39,6 +43,8 @@ public class SkeletonScript : MonoBehaviour
 
     private void Update()
     {
+        animator.SetInteger("State", (int)state);
+
         HandleState();
 
         hpBar.transform.position = Camera.main.WorldToScreenPoint(transform.position);
