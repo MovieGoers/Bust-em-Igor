@@ -8,6 +8,10 @@ public class GameManager : MonoBehaviour
 
     public GameObject PlayerGameObject;
 
+    public int maxEnemyCount;
+    public float enemySpawnTime;
+    float enemySpawnTimer;
+
     public static GameManager Instance
     {
         get
@@ -30,9 +34,23 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        EnemyManager.Instance.SpawnNewSkeleton(new Vector3(2f, 5f, 2f));
-        EnemyManager.Instance.SpawnNewSkeleton(new Vector3(-3f, 5f, 3f));
-        EnemyManager.Instance.SpawnNewSkeleton(new Vector3(4f, 5f, -4f));
-        EnemyManager.Instance.SpawnNewSkeleton(new Vector3(-5f, 5f, -5f));
+        enemySpawnTimer = enemySpawnTime;
+    }
+
+    private void Update()
+    {
+        if(enemySpawnTimer > 0)
+        {
+            enemySpawnTimer -= Time.deltaTime;
+        }
+
+        if(enemySpawnTimer <= 0)
+        {
+            if(EnemyManager.Instance.GetEnemyCount() < maxEnemyCount)
+            {
+                EnemyManager.Instance.SpawnNewSkeleton(100f, 0.01f, 0.01f);
+                enemySpawnTimer = enemySpawnTime;
+            }
+        }
     }
 }

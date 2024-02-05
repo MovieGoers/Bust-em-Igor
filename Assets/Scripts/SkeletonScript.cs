@@ -11,12 +11,9 @@ public class SkeletonScript : MonoBehaviour
     public float attackRange;
 
     GameObject player;
-    bool isPlayerNear;
 
     public GameObject hpBar;
     Slider hpBarSlider;
-
-    // State 관련 구현 필요할 수도.
 
     Vector3 moveDirection;
 
@@ -31,7 +28,6 @@ public class SkeletonScript : MonoBehaviour
 
     private void Start()
     {
-        isPlayerNear = false;
         hpBarSlider = hpBar.GetComponent<Slider>();
         player = GameManager.Instance.PlayerGameObject;
 

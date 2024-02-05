@@ -6,8 +6,14 @@ public class EnemyManager : MonoBehaviour
 {
     private static EnemyManager instance;
 
+    GameObject player;
+
     public GameObject originalSkeleton;
     public List<GameObject> skeletons = new List<GameObject>();
+
+    public float spawnDistance;
+
+    int enemyCount;
 
     public static EnemyManager Instance
     {
@@ -29,18 +35,41 @@ public class EnemyManager : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
     }
 
-    public void SpawnNewSkeleton(Vector3 pos)
+    private void Start()
+    {
+        player = GameManager.Instance.PlayerGameObject;
+        enemyCount = 0;
+    }
+
+    public void SpawnNewSkeleton(float hp, float damage, float speed)
     {
         GameObject newSkeleton = Instantiate(originalSkeleton);
 
         newSkeleton.SetActive(true);
-        newSkeleton.transform.position = pos;
+        newSkeleton.GetComponent<SkeletonScript>().hp = hp;
+        newSkeleton.GetComponent<SkeletonScript>().damage = damage;
+        newSkeleton.GetComponent<SkeletonScript>().speed = speed;
+
+        float randomAngle = Random.Range(0f, 360f);
+
+        float x = Mathf.Cos(randomAngle) * spawnDistance + player.transform.position.x;
+        float z = Mathf.Sin(randomAngle) * spawnDistance + player.transform.position.z;
+
+        newSkeleton.transform.position = new Vector3(x, newSkeleton.transform.position.y, z);
 
         skeletons.Add(newSkeleton);
+
+        enemyCount++;
     }
 
     public void RemoveSkeletonFromList(GameObject skeleton)
     {
         skeletons.Remove(skeleton);
+        enemyCount--;
+    }
+
+    public int GetEnemyCount()
+    {
+        return enemyCount;
     }
 }
