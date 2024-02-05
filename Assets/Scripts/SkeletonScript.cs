@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class SkeletonScript : MonoBehaviour
 {
     public float damage;
+    public float exp;
     public float hp;
     public float speed;
     public float attackRange;

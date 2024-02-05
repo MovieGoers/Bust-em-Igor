@@ -28,10 +28,11 @@ public class UIManager : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
     }
 
-    public void SetHPText(int level, float damage, float speed, float maxHP, float hp, float attackTime, float attackTimer)
+    public void SetHPText(int level, float exp, float damage, float speed, float maxHP, float hp, float attackTime, float attackTimer)
     {
         hpText.text = "";
         hpText.text += "Lv : " + level + '\n';
+        hpText.text += "EXP : " + exp + '\n';
         hpText.text += "DMG : " + damage + '\n';
         hpText.text += "SPD : " + speed + '\n';
         hpText.text += "HP : " + hp.ToString("F2") + " / " + maxHP.ToString("F2") + '\n';

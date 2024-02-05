@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerScript : MonoBehaviour
 {
     int level;
+    float exp;
     public float damage;
     public float speed;
     public float maxHP;
@@ -32,6 +33,7 @@ public class PlayerScript : MonoBehaviour
         hp = maxHP;
         state = State.idle;
         level = 1;
+        exp = 0;
 
         animator = gameObject.GetComponent<Animator>();
     }
@@ -54,7 +56,7 @@ public class PlayerScript : MonoBehaviour
 
     private void Update()
     {
-        UIManager.Instance.SetHPText(level, damage, speed, maxHP, hp, attackTime, attackTimer);
+        UIManager.Instance.SetHPText(level, exp, damage, speed, maxHP, hp, attackTime, attackTimer);
 
         animator.SetInteger("State", (int)state);
 
@@ -95,8 +97,11 @@ public class PlayerScript : MonoBehaviour
     void AttackEnemy(GameObject enemy)
     {
         enemy.GetComponent<SkeletonScript>().hp -= damage;
+
+        // 利 贸摹 贸府.
         if(enemy.GetComponent<SkeletonScript>().hp <= 0)
         {
+            exp += enemy.GetComponent<SkeletonScript>().exp;
             Destroy(enemy);
             EnemyManager.Instance.RemoveSkeletonFromList(enemy);
         }

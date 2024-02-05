@@ -41,7 +41,7 @@ public class EnemyManager : MonoBehaviour
         enemyCount = 0;
     }
 
-    public void SpawnNewSkeleton(float hp, float damage, float speed)
+    public void SpawnNewSkeleton(float hp, float damage, float speed, float exp)
     {
         GameObject newSkeleton = Instantiate(originalSkeleton);
 
@@ -49,6 +49,7 @@ public class EnemyManager : MonoBehaviour
         newSkeleton.GetComponent<SkeletonScript>().hp = hp;
         newSkeleton.GetComponent<SkeletonScript>().damage = damage;
         newSkeleton.GetComponent<SkeletonScript>().speed = speed;
+        newSkeleton.GetComponent<SkeletonScript>().exp = exp;
 
         float randomAngle = Random.Range(0f, 360f);
 

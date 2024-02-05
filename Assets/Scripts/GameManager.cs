@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour
         {
             if(EnemyManager.Instance.GetEnemyCount() < maxEnemyCount)
             {
-                EnemyManager.Instance.SpawnNewSkeleton(100f, 0.01f, 0.01f);
+                EnemyManager.Instance.SpawnNewSkeleton(100f, 0.01f, 0.01f, 100f);
                 enemySpawnTimer = enemySpawnTime;
             }
         }
