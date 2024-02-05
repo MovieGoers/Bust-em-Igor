@@ -8,35 +8,52 @@ public class PlayerScript : MonoBehaviour
     public float speed;
     public float hp;
     public float attackTime;
+    public float attackRange;
     float attackTimer;
-
-    bool isTargetNear;
 
     Vector3 moveDirection;
     GameObject targetEnemy;
 
+    Animator animator;
+
+    enum State {
+        idle,
+        moving,
+        attacking
+    }
+
+    State state;
+
     private void Start()
     {
         attackTimer = attackTime;
-        isTargetNear = false;
+        state = State.idle;
+
+        animator = gameObject.GetComponent<Animator>();
     }
 
     private void FixedUpdate()
     {
         targetEnemy = FindNearestEnemy(); // 최적화를 위해 Update 함수 대신 다른 곳에서 특정 상황 되면 호출되도록 구현 필요.
 
+        HandleState();
+
         moveDirection = (targetEnemy.transform.position - transform.position).normalized;
-        
         transform.rotation = Quaternion.LookRotation(moveDirection, Vector3.up);
 
-        if (!isTargetNear)
-            transform.position += moveDirection * speed;
+        if (state == State.moving)
+        {
+            transform.position = new Vector3(transform.position.x + moveDirection.x * speed, transform.position.y, transform.position.z + moveDirection.z * speed);
+        }
+        
     }
 
     private void Update()
     {
         UIManager.Instance.SetAttackText(attackTimer);
         UIManager.Instance.SetHPText(hp);
+
+        animator.SetInteger("State", (int)state);
 
         if (attackTimer > 0)
         {
@@ -45,7 +62,7 @@ public class PlayerScript : MonoBehaviour
 
         if(attackTimer <= 0)
         {
-            if (isTargetNear) {
+            if (state == State.attacking) {
                 AttackEnemy(targetEnemy);
                 attackTimer = attackTime;
             }
@@ -79,7 +96,6 @@ public class PlayerScript : MonoBehaviour
         {
             Destroy(enemy);
             EnemyManager.Instance.RemoveSkeletonFromList(enemy);
-            isTargetNear = false;
         }
     }
 
@@ -88,12 +104,22 @@ public class PlayerScript : MonoBehaviour
         hp -= damage;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    void HandleState()
     {
-        GameObject go = collision.gameObject;
-        if (go.CompareTag("Enemy"))
+        if (targetEnemy != null)
+        { 
+            if(Vector3.Distance(targetEnemy.transform.position, transform.position) <= attackRange)
+            {
+                state = State.attacking;
+            }
+            else
+            {
+                state = State.moving;
+            }
+        }
+        else
         {
-            isTargetNear = true;
+            state = State.idle;
         }
     }
 }
