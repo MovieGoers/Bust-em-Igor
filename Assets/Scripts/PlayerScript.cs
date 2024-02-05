@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
 {
+    int level;
     public float damage;
     public float speed;
-    public float hp;
+    public float maxHP;
+    float hp;
     public float attackTime;
     public float attackRange;
     float attackTimer;
@@ -27,7 +29,9 @@ public class PlayerScript : MonoBehaviour
     private void Start()
     {
         attackTimer = attackTime;
+        hp = maxHP;
         state = State.idle;
+        level = 1;
 
         animator = gameObject.GetComponent<Animator>();
     }
@@ -50,8 +54,7 @@ public class PlayerScript : MonoBehaviour
 
     private void Update()
     {
-        UIManager.Instance.SetAttackText(attackTimer);
-        UIManager.Instance.SetHPText(hp);
+        UIManager.Instance.SetHPText(level, damage, speed, maxHP, hp, attackTime, attackTimer);
 
         animator.SetInteger("State", (int)state);
 

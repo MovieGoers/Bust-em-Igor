@@ -8,7 +8,6 @@ public class UIManager : MonoBehaviour
     private static UIManager instance;
 
     public Text hpText;
-    public Text AttackText;
     public static UIManager Instance
     {
         get
@@ -29,13 +28,13 @@ public class UIManager : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
     }
 
-    public void SetHPText(float hp)
+    public void SetHPText(int level, float damage, float speed, float maxHP, float hp, float attackTime, float attackTimer)
     {
-        hpText.text = "HP : " + hp.ToString("F2"); ;
-    }
-
-    public void SetAttackText(float time)
-    {
-        AttackText.text = "Attack : " + time.ToString("F2");
+        hpText.text = "";
+        hpText.text += "Lv : " + level + '\n';
+        hpText.text += "DMG : " + damage + '\n';
+        hpText.text += "SPD : " + speed + '\n';
+        hpText.text += "HP : " + hp.ToString("F2") + " / " + maxHP.ToString("F2") + '\n';
+        hpText.text += "ATK : " + attackTimer.ToString("F2") + " / " + attackTime.ToString("F2") + '\n';
     }
 }
