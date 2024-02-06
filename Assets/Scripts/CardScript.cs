@@ -5,12 +5,27 @@ using UnityEngine.EventSystems;
 
 public class CardScript : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    Transform originalParent;
+    [HideInInspector]
+    public Transform originalParent;
+
+    [HideInInspector]
+    public enum Type { 
+        consumable,
+        durable
+    };
+
+    public string cardName;
+    public Type cardType;
+    public Sprite cardImage;
+    [TextArea]
+    public string description;
+
     public void OnBeginDrag(PointerEventData eventData)
     {
         originalParent = this.transform.parent;
         this.transform.SetParent(this.transform.root);
-        Debug.Log("Begin Drag");
+
+        GetComponent<CanvasGroup>().blocksRaycasts = false;
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -21,6 +36,13 @@ public class CardScript : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     public void OnEndDrag(PointerEventData eventData)
     {
         this.transform.SetParent(originalParent);
-        Debug.Log("End Drag");
+
+        GetComponent<CanvasGroup>().blocksRaycasts = true;
+    }
+
+    public void ActivateCardEffect()
+    {
+        Debug.Log("Card Activated");
+        //GameManager.Instance.PlayerGameObject.GetComponent<PlayerScript>().IncreaseDamage(10f);
     }
 }

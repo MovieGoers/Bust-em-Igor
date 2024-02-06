@@ -6,6 +6,7 @@ public class PlayerScript : MonoBehaviour
 {
     int level;
     float exp;
+    float nextExp;
     public float damage;
     public float speed;
     public float maxHP;
@@ -34,6 +35,7 @@ public class PlayerScript : MonoBehaviour
         state = State.idle;
         level = 1;
         exp = 0;
+        nextExp = 200;
 
         animator = gameObject.GetComponent<Animator>();
     }
@@ -102,9 +104,22 @@ public class PlayerScript : MonoBehaviour
         if(enemy.GetComponent<SkeletonScript>().hp <= 0)
         {
             exp += enemy.GetComponent<SkeletonScript>().exp;
+
+            if(exp >= nextExp)
+            {
+                HandleLevelUp();
+                nextExp += 200;
+            }
+
             Destroy(enemy);
             EnemyManager.Instance.RemoveSkeletonFromList(enemy);
         }
+    }
+
+    void HandleLevelUp()
+    {
+        level++;
+        // do something
     }
 
     public void AttackPlayer(float damage)
@@ -129,5 +144,10 @@ public class PlayerScript : MonoBehaviour
         {
             state = State.idle;
         }
+    }
+
+    public void IncreaseDamage(float plusDamage)
+    {
+        damage += plusDamage;
     }
 }
