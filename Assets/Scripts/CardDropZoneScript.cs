@@ -11,14 +11,19 @@ public class CardDropZoneScript : MonoBehaviour, IDropHandler
         Debug.Log(eventData.pointerDrag.name + " was Dropped to " + gameObject.name);
 
         GameObject card = eventData.pointerDrag;
+        CardScript cardScript = card.GetComponent<CardScript>();
 
-        if(card != null)
+
+        //cardScript.originalParent = this.transform;
+        if (card != null)
         {
-            card.GetComponent<CardScript>().originalParent = this.transform;
-
             if (gameObject.CompareTag("TableTop"))
             {
-                card.GetComponent<CardScript>().ActivateCardEffect();
+                if(cardScript.cardType == CardScript.Type.consumable)
+                {
+                    card.GetComponent<CardScript>().ActivateCardEffect();
+                    Destroy(card);
+                }
             }
             else if (gameObject.CompareTag("Trashbin"))
             {

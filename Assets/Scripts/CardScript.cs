@@ -14,6 +14,9 @@ public class CardScript : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         durable
     };
 
+    [HideInInspector]
+    public int id;
+
     public string cardName;
     public Type cardType;
     public Sprite cardImage;
