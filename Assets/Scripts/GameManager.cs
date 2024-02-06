@@ -8,9 +8,18 @@ public class GameManager : MonoBehaviour
 
     public GameObject PlayerGameObject;
 
+    float gameTimer;
+
     public int maxEnemyCount;
     public float enemySpawnTime;
     float enemySpawnTimer;
+
+    enum GameState { 
+        playing,
+        paused
+    }
+
+    GameState state;
 
     public static GameManager Instance
     {
@@ -34,23 +43,49 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        gameTimer = 0f;
         enemySpawnTimer = enemySpawnTime;
+        state = GameState.playing;
+
+        StartCoroutine("StartGameTimer");
+        StartCoroutine("StartEnemySpawnTimer");
     }
 
-    private void Update()
+    IEnumerator StartGameTimer()
     {
-        if(enemySpawnTimer > 0)
+        yield return null;
+        int min = 0, sec = 0;
+        while(state == GameState.playing)
         {
-            enemySpawnTimer -= Time.deltaTime;
-        }
+            min = (int)gameTimer / 60;
+            sec = (int)gameTimer % 60;
 
-        if(enemySpawnTimer <= 0)
+            UIManager.Instance.SetGameTimerText(min, sec);
+            yield return new WaitForSeconds(1f);
+            gameTimer += 1;
+        }
+    }
+
+    IEnumerator StartEnemySpawnTimer()
+    {
+        yield return null;
+        while(state == GameState.playing)
         {
-            if(EnemyManager.Instance.GetEnemyCount() < maxEnemyCount)
+            if (enemySpawnTimer > 0)
             {
-                EnemyManager.Instance.SpawnNewSkeleton(100f, 0.01f, 0.01f, 100f);
-                enemySpawnTimer = enemySpawnTime;
+                enemySpawnTimer -= 0.05f;
             }
+
+            if (enemySpawnTimer <= 0)
+            {
+                if (EnemyManager.Instance.GetEnemyCount() < maxEnemyCount)
+                {
+                    EnemyManager.Instance.SpawnNewSkeleton(100f, 0.01f, 0.01f, 100f);
+                    enemySpawnTimer = enemySpawnTime;
+                }
+            }
+
+            yield return new WaitForSeconds(0.05f);
         }
     }
 }

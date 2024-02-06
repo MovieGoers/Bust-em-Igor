@@ -8,6 +8,7 @@ public class UIManager : MonoBehaviour
     private static UIManager instance;
 
     public Text hpText;
+    public Text gameTimerText;
     public static UIManager Instance
     {
         get
@@ -37,5 +38,10 @@ public class UIManager : MonoBehaviour
         hpText.text += "SPD : " + speed + '\n';
         hpText.text += "HP : " + hp.ToString("F2") + " / " + maxHP.ToString("F2") + '\n';
         hpText.text += "ATK : " + attackTimer.ToString("F2") + " / " + attackTime.ToString("F2") + '\n';
+    }
+
+    public void SetGameTimerText(int min, int sec)
+    {
+        gameTimerText.text = min.ToString("00") + ':' + sec.ToString("00");
     }
 }
