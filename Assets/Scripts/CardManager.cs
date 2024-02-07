@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class CardManager : MonoBehaviour
 {
-    private static UIManager instance;
+    private static CardManager instance;
 
-    List<GameObject> cards = new List<GameObject> ();
-    public static UIManager Instance
+    public static CardManager Instance
     {
         get
         {
@@ -23,6 +22,24 @@ public class CardManager : MonoBehaviour
             return;
         }
 
+        instance = this;
         DontDestroyOnLoad(this.gameObject);
+    }
+
+    public void ActivateCardEffect(int cardID, float value)
+    {
+        switch (cardID)
+        {
+            case 1:
+                HealPlayer(value);
+                break;
+            default:
+                break;
+        }
+    }
+
+    void HealPlayer(float value)
+    {
+        GameManager.Instance.PlayerGameObject.GetComponent<PlayerScript>().hp += value;
     }
 }

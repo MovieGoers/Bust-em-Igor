@@ -19,9 +19,9 @@ public class CardDropZoneScript : MonoBehaviour, IDropHandler
         {
             if (gameObject.CompareTag("TableTop"))
             {
-                if(cardScript.cardType == CardScript.Type.consumable)
+                if(cardScript.cardObject.cardType == Type.consumable)
                 {
-                    card.GetComponent<CardScript>().ActivateCardEffect();
+                    CardManager.Instance.ActivateCardEffect(cardScript.cardObject.cardId, 10f);
                     Destroy(card);
                 }
             }
