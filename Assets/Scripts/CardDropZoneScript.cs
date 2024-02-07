@@ -21,7 +21,7 @@ public class CardDropZoneScript : MonoBehaviour, IDropHandler
             {
                 if(cardScript.cardObject.cardType == Type.consumable)
                 {
-                    CardManager.Instance.ActivateCardEffect(cardScript.cardObject.cardId, 10f);
+                    CardManager.Instance.ActivateCardEffect(cardScript.cardObject.cardId);
                     Destroy(card);
                 }
             }

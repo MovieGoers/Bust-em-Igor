@@ -26,20 +26,18 @@ public class CardManager : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
     }
 
-    public void ActivateCardEffect(int cardID, float value)
+    public void ActivateCardEffect(int cardID)
     {
         switch (cardID)
         {
             case 1:
-                HealPlayer(value);
+                GameManager.Instance.PlayerGameObject.GetComponent<PlayerScript>().HealPlayer(50f);
+                break;
+            case 2:
+                GameManager.Instance.PlayerGameObject.GetComponent<PlayerScript>().IncreaseDamage(20f);
                 break;
             default:
                 break;
         }
-    }
-
-    void HealPlayer(float value)
-    {
-        GameManager.Instance.PlayerGameObject.GetComponent<PlayerScript>().hp += value;
     }
 }

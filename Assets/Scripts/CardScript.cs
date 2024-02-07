@@ -16,6 +16,7 @@ public class CardScript : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     
     void Start()
     {
+        // 카드 UI Text 설정.
         nameText.text = cardObject.cardName;
         descriptionText.text = cardObject.description;
     }
@@ -23,7 +24,7 @@ public class CardScript : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     public void OnBeginDrag(PointerEventData eventData)
     {
         originalParent = this.transform.parent;
-        this.transform.SetParent(this.transform.root);
+        this.transform.SetParent(this.transform.root); // Canvas를 Parent로 설정.
 
         GetComponent<CanvasGroup>().blocksRaycasts = false;
     }
