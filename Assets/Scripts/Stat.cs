@@ -3,13 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class State
+public class Stat
 {
     [SerializeField]
-    private int baseValue;
+    private float baseValue;
 
-    public int GetValue()
+    private List<float> mods = new List<float>();
+
+    public float GetValue()
     {
-        return baseValue;
+        float finalValue = baseValue;
+        mods.ForEach(x => finalValue += x);
+        return finalValue;
+    }
+
+    public void AddMod(float mod)
+    {
+        mods.Add(mod);
+    }
+
+    public void RemoveMod(float mod)
+    {
+        mods.Remove(mod);
     }
 }

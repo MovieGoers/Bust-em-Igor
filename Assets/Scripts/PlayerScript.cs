@@ -7,11 +7,13 @@ public class PlayerScript : MonoBehaviour
     int level;
     float exp;
     float nextExp;
-    public float damage;
-    public float speed;
-    public float maxHP;
-    float hp;
-    public float attackTime;
+    public float hp;
+
+    public Stat maxHP;
+    public Stat damage;
+    public Stat speed;
+    public Stat attackTime;
+
     public float attackRange;
     float attackTimer;
 
@@ -30,8 +32,8 @@ public class PlayerScript : MonoBehaviour
 
     private void Start()
     {
-        attackTimer = attackTime;
-        hp = maxHP;
+        attackTimer = attackTime.GetValue();
+        hp = maxHP.GetValue();
         state = State.idle;
         level = 1;
         exp = 0;
@@ -51,14 +53,14 @@ public class PlayerScript : MonoBehaviour
 
         if (state == State.moving)
         {
-            transform.position = new Vector3(transform.position.x + moveDirection.x * speed, transform.position.y, transform.position.z + moveDirection.z * speed);
+            transform.position = new Vector3(transform.position.x + moveDirection.x * speed.GetValue(), transform.position.y, transform.position.z + moveDirection.z * speed.GetValue());
         }
         
     }
 
     private void Update()
     {
-        UIManager.Instance.SetHPText(level, exp, damage, speed, maxHP, hp, attackTime, attackTimer);
+        UIManager.Instance.SetHPText(level, exp, damage.GetValue(), speed.GetValue(), maxHP.GetValue(), hp, attackTime.GetValue(), attackTimer);
 
         animator.SetInteger("State", (int)state);
 
@@ -71,7 +73,7 @@ public class PlayerScript : MonoBehaviour
         {
             if (state == State.attacking) {
                 AttackEnemy(targetEnemy);
-                attackTimer = attackTime;
+                attackTimer = attackTime.GetValue();
             }
         }
     }
@@ -98,7 +100,7 @@ public class PlayerScript : MonoBehaviour
 
     void AttackEnemy(GameObject enemy)
     {
-        enemy.GetComponent<SkeletonScript>().hp -= damage;
+        enemy.GetComponent<SkeletonScript>().hp -= damage.GetValue();
 
         // 利 贸摹 贸府.
         if(enemy.GetComponent<SkeletonScript>().hp <= 0)
@@ -119,6 +121,7 @@ public class PlayerScript : MonoBehaviour
     void HandleLevelUp()
     {
         level++;
+        hp = maxHP.GetValue();
         // do something
     }
 
@@ -146,8 +149,13 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
-    public void IncreaseDamage(float plusDamage)
+    public void AddDamage(float plusDamage)
     {
-        damage += plusDamage;
+        damage.AddMod(plusDamage);
+    }
+
+    public void HealPlayer(float plusHP)
+    {
+        hp += plusHP;
     }
 }
