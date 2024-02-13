@@ -5,7 +5,7 @@ using UnityEngine;
 public enum Type
 {
     consumable,
-    durable
+    Fixed
 };
 
 [CreateAssetMenu(fileName = "default card", menuName = "Card Object")]
@@ -16,4 +16,5 @@ public class CardObject : ScriptableObject
     public Type cardType;
     public Sprite cardImage;
     public string description;
+    public float effectValue;
 }

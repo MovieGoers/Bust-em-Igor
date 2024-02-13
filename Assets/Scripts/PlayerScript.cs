@@ -158,4 +158,9 @@ public class PlayerScript : MonoBehaviour
     {
         hp += plusHP;
     }
+
+    public void AddMaxHP(float hp)
+    {
+        maxHP.AddMod(hp);
+    }
 }

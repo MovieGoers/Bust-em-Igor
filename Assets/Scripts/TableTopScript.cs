@@ -14,7 +14,7 @@ public class TableTopScript : MonoBehaviour, IDropHandler
         {
             if (cardScript.cardObject.cardType == Type.consumable)
             {
-                CardManager.Instance.ActivateCardEffect(cardScript.cardObject.cardId);
+                CardManager.Instance.ActivateCardEffect(cardScript.cardObject.cardId, cardScript.cardObject.effectValue);
                 Destroy(card);
             }
         }
