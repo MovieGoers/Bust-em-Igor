@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
     public float enemySpawnTime;
     float enemySpawnTimer;
 
+    bool isGamePaused;
+
     enum GameState { 
         playing,
         paused
@@ -46,6 +48,8 @@ public class GameManager : MonoBehaviour
         gameTimer = 0f;
         enemySpawnTimer = enemySpawnTime;
         state = GameState.playing;
+
+        isGamePaused = false;
 
         StartCoroutine("StartGameTimer");
         StartCoroutine("StartEnemySpawnTimer");
@@ -80,12 +84,30 @@ public class GameManager : MonoBehaviour
             {
                 if (EnemyManager.Instance.GetEnemyCount() < maxEnemyCount)
                 {
-                    EnemyManager.Instance.SpawnNewSkeleton(100f, 0.01f, 0.01f, 100f);
+                    EnemyManager.Instance.SpawnNewSkeleton(100f + gameTimer, 0.01f + 0.001f * gameTimer, 0.01f + 0.001f * gameTimer, 100f + 10f * gameTimer);
                     enemySpawnTimer = enemySpawnTime;
                 }
             }
 
             yield return new WaitForSeconds(0.05f);
+        }
+    }
+
+    public void PauseGame()
+    {
+        if(isGamePaused == false)
+        {
+            isGamePaused = true;
+            Time.timeScale = 0f;
+        }
+    }
+
+    public void ResumeGame()
+    {
+        if (isGamePaused == true)
+        {
+            isGamePaused = false;
+            Time.timeScale = 1f;
         }
     }
 }
